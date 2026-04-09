@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apateu — AI Infrastructure for Student Real Estate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;0,9..144,400;1,9..144,200;1,9..144,300;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+
+/* ─────────────────────────────────
+   TOKENS
+───────────────────────────────── */
+:root {
+  --cream:       #F5F4EF;
+  --cream-dark:  #EDECEA;
+  --sand:        #E8E4DC;
+  --sand-mid:    #D4CFC4;
+  --terracotta:  #C96A45;
+  --terra-light: #E8916E;
+  --terra-pale:  #F5E6DF;
+  --ink:         #1A1916;
+  --ink-mid:     #4A4844;
+  --ink-light:   #8A8784;
+  --ink-faint:   #B8B5B0;
+  --sage:        #5C7A65;
+  --sage-pale:   #E4EDE6;
+  --blue:        #3D5A8A;
+  --blue-pale:   #E2E8F2;
+  --white:       #FFFFFF;
+  --border:      rgba(26,25,22,0.10);
+  --border-mid:  rgba(26,25,22,0.18);
+
+  /* dark surface */
+  --dark-bg:     #141210;
+  --dark-surface:#1F1D1A;
+  --dark-border: rgba(255,255,255,0.08);
+  --dark-text:   rgba(255,255,255,0.88);
+  --dark-sub:    rgba(255,255,255,0.48);
+  --dark-faint:  rgba(255,255,255,0.20);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─────────────────────────────────
+   UTILITIES
+───────────────────────────────── */
+.tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-light);
+}
+.tag.terra { color: var(--terracotta); }
+.tag.dark  { color: var(--dark-sub); }
+.tag.dark-terra { color: var(--terra-light); }
+
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  line-height: 1.12;
+  color: var(--ink);
+}
+.section-title.light { color: var(--dark-text); }
+.section-title em { font-style: italic; color: var(--terracotta); }
+.section-title em.light-em { color: var(--terra-light); }
+
+/* ─────────────────────────────────
+   NAV
+───────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  background: rgba(20,18,16,0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--dark-border);
+}
+
+.nav-wordmark {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+  color: var(--dark-text);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 14px;
+  color: var(--dark-sub);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--dark-text); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary {
+  background: var(--terracotta);
+  color: white;
+}
+.btn-primary:hover { background: var(--terra-light); }
+
+.btn-outline-dark {
+  background: transparent;
+  color: var(--dark-text);
+  border: 1px solid var(--dark-border);
+}
+.btn-outline-dark:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.18);
+}
+
+/* ─────────────────────────────────
+   HERO
+───────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background: var(--dark-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  overflow: hidden;
+}
+
+/* Anthropic-style glow orbs */
+.hero-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+}
+.hero-glow-1 {
+  width: 600px; height: 600px;
+  top: -100px; right: -100px;
+  background: radial-gradient(circle, rgba(201,106,69,0.22) 0%, transparent 70%);
+}
+.hero-glow-2 {
+  width: 500px; height: 500px;
+  bottom: -80px; left: -80px;
+  background: radial-gradient(circle, rgba(61,90,138,0.18) 0%, transparent 70%);
+}
+.hero-glow-3 {
+  width: 400px; height: 400px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(201,106,69,0.08) 0%, transparent 60%);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px 6px 8px;
+  border-radius: 100px;
+  background: rgba(201,106,69,0.12);
+  border: 1px solid rgba(201,106,69,0.25);
+}
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.8); }
+}
+.hero-badge-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--terra-light);
+}
+
+.hero-headline {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(52px, 7vw, 88px);
+  line-height: 1.06;
+  letter-spacing: -2px;
+  color: var(--dark-text);
+}
+.hero-headline em {
+  font-style: italic;
+  color: var(--terracotta);
+}
+
+.hero-subtitle {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--dark-sub);
+  padding: 10px 20px;
+  border: 1px solid var(--dark-border);
+  border-radius: 4px;
+}
+
+.hero-desc {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--dark-sub);
+  max-width: 580px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 0;
+  margin-top: 40px;
+  border: 1px solid var(--dark-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.hero-stat {
+  padding: 20px 32px;
+  border-right: 1px solid var(--dark-border);
+  text-align: center;
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: 30px;
+  color: var(--dark-text);
+  line-height: 1;
+}
+.hero-stat-lbl {
+  font-size: 12px;
+  color: var(--dark-sub);
+  margin-top: 4px;
+}
+
+/* ─────────────────────────────────
+   AGENT DEMO (KEY SECTION)
+───────────────────────────────── */
+.agent-section {
+  background: var(--dark-bg);
+  padding: 80px 48px 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+.agent-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--dark-border), transparent);
+}
+
+.agent-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.agent-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.agent-header .section-title { font-size: clamp(36px, 4vw, 54px); }
+
+.agent-header p {
+  font-size: 16px;
+  color: var(--dark-sub);
+  margin-top: 16px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+
+.agent-demo {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  align-items: center;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* Chat bubble side */
+.chat-window {
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.chat-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--dark-border);
+}
+.chat-dots {
+  display: flex;
+  gap: 6px;
+}
+.chat-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+}
+.chat-titlebar-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--dark-faint);
+  text-transform: uppercase;
+  margin-left: 4px;
+}
+
+.chat-body {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chat-msg {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.chat-msg.user { justify-content: flex-end; }
+
+.chat-avatar {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.chat-avatar.ai-avatar {
+  background: linear-gradient(135deg, #C96A45, #3D5A8A);
+  color: white;
+  font-family: 'Fraunces', serif;
+  font-size: 14px;
+}
+.chat-avatar.user-avatar {
+  background: rgba(255,255,255,0.1);
+  color: var(--dark-sub);
+}
+
+.chat-bubble {
+  max-width: 260px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.chat-bubble.user-bubble {
+  background: rgba(201,106,69,0.15);
+  border: 1px solid rgba(201,106,69,0.2);
+  color: rgba(255,255,255,0.8);
+}
+.chat-bubble.ai-bubble {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--dark-border);
+  color: var(--dark-text);
+}
+
+.chat-bubble .highlight { color: var(--terra-light); font-weight: 500; }
+
+.chat-result-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--dark-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 4px;
+}
+.crc-address {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dark-text);
+}
+.crc-price {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--terra-light);
+  margin-top: 3px;
+}
+.crc-tags {
+  display: flex;
+  gap: 5px;
+  margin-top: 6px;
+}
+.crc-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(92,122,101,0.15);
+  border: 1px solid rgba(92,122,101,0.2);
+  color: #7FA888;
+  letter-spacing: 0.3px;
+}
+
+/* Flow arrow middle */
+.agent-flow-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0 32px;
+}
+
+.flow-mcp-badge {
+  background: rgba(201,106,69,0.1);
+  border: 1px solid rgba(201,106,69,0.25);
+  border-radius: 6px;
+  padding: 8px 16px;
+  text-align: center;
+}
+.fmb-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--terra-light);
+}
+.fmb-sub {
+  font-size: 11px;
+  color: var(--dark-sub);
+  margin-top: 3px;
+}
+
+.flow-line {
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(to bottom, rgba(201,106,69,0.4), transparent);
+}
+
+.flow-arrow-icon {
+  font-size: 18px;
+  color: var(--terracotta);
+  opacity: 0.6;
+}
+
+/* Results side */
+.results-window {
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.rw-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--dark-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rw-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--dark-faint);
+}
+.rw-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--terra-light);
+  background: rgba(201,106,69,0.1);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.rw-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+
+.listing-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--dark-border);
+  border-radius: 10px;
+  padding: 14px;
+  transition: border-color 0.2s;
+}
+.listing-card:first-child {
+  border-color: rgba(201,106,69,0.3);
+  background: rgba(201,106,69,0.05);
+}
+
+.lc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+.lc-addr {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--dark-text);
+  line-height: 1.3;
+}
+.lc-price {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--terra-light);
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+.lc-meta {
+  font-size: 12px;
+  color: var(--dark-sub);
+}
+.lc-tags {
+  display: flex;
+  gap: 5px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.lc-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
+.lc-tag.verified {
+  background: rgba(92,122,101,0.15);
+  border: 1px solid rgba(92,122,101,0.25);
+  color: #7FA888;
+}
+.lc-tag.available {
+  background: rgba(61,90,138,0.15);
+  border: 1px solid rgba(61,90,138,0.25);
+  color: #7B9AD0;
+}
+
+.agent-caption {
+  text-align: center;
+  margin-top: 52px;
+  font-size: 15px;
+  color: var(--dark-sub);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+.agent-caption strong { color: var(--dark-text); }
+
+.ai-logos {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+}
+.ai-logo-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  border: 1px solid var(--dark-border);
+  border-radius: 100px;
+  font-size: 13px;
+  color: var(--dark-sub);
+}
+.ai-logo-pill span { font-size: 15px; }
+
+/* ─────────────────────────────────
+   WHY APATEU — FEATURE GRID
+───────────────────────────────── */
+.features-section {
+  background: var(--cream);
+  padding: 120px 48px;
+}
+
+.features-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.features-header {
+  max-width: 560px;
+  margin-bottom: 64px;
+}
+.features-header .section-title { font-size: clamp(36px, 4vw, 52px); }
+.features-header p {
+  font-size: 16px;
+  color: var(--ink-mid);
+  margin-top: 16px;
+  line-height: 1.7;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.feat-card {
+  background: var(--cream);
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background 0.2s;
+}
+.feat-card:hover { background: var(--white); }
+
+.feat-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: var(--terra-pale);
+  border: 1px solid rgba(201,106,69,0.15);
+}
+.feat-icon.sage-icon { background: var(--sage-pale); border-color: rgba(92,122,101,0.15); }
+.feat-icon.blue-icon { background: var(--blue-pale); border-color: rgba(61,90,138,0.15); }
+
+.feat-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.feat-body {
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.65;
+}
+
+/* ─────────────────────────────────
+   FOR STUDENTS
+───────────────────────────────── */
+.students-section {
+  background: var(--cream-dark);
+  padding: 120px 48px;
+}
+
+.students-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.students-text .section-title { font-size: clamp(36px, 4vw, 52px); margin-top: 12px; }
+
+.students-text p {
+  font-size: 16px;
+  color: var(--ink-mid);
+  margin-top: 20px;
+  line-height: 1.7;
+}
+
+.students-text .btn { margin-top: 32px; }
+
+.students-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sc-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.sc-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--terracotta);
+  background: var(--terra-pale);
+  border: 1px solid rgba(201,106,69,0.2);
+  border-radius: 4px;
+  width: 30px; height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.sc-content-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+.sc-content-body {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+}
+
+/* ─────────────────────────────────
+   FOR PROPERTY MANAGERS (DARK)
+───────────────────────────────── */
+.pm-section {
+  background: var(--dark-bg);
+  padding: 120px 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pm-glow {
+  position: absolute;
+  width: 700px; height: 700px;
+  top: 50%; left: 60%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(61,90,138,0.14) 0%, transparent 65%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.pm-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.pm-header {
+  max-width: 600px;
+  margin-bottom: 64px;
+}
+.pm-header .section-title { font-size: clamp(36px, 4vw, 52px); margin-top: 12px; }
+.pm-header p {
+  font-size: 16px;
+  color: var(--dark-sub);
+  margin-top: 20px;
+  line-height: 1.7;
+}
+
+.pm-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.pm-card {
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: 12px;
+  padding: 28px 28px;
+}
+
+.pm-card-icon {
+  font-size: 22px;
+  margin-bottom: 14px;
+}
+
+.pm-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dark-text);
+  margin-bottom: 8px;
+}
+
+.pm-card-body {
+  font-size: 14px;
+  color: var(--dark-sub);
+  line-height: 1.65;
+}
+
+.pm-pricing {
+  background: var(--dark-surface);
+  border: 1px solid rgba(61,90,138,0.3);
+  border-radius: 12px;
+  padding: 32px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.pp-left .pp-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(61,90,138,0.8);
+  margin-bottom: 8px;
+}
+.pp-price {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: 42px;
+  color: var(--dark-text);
+  line-height: 1;
+}
+.pp-price span {
+  font-size: 18px;
+  color: var(--dark-sub);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+}
+.pp-sub {
+  font-size: 13px;
+  color: var(--dark-sub);
+  margin-top: 6px;
+}
+
+.pp-features {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.pp-feat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--dark-sub);
+}
+.pp-feat::before {
+  content: '✓';
+  color: var(--sage);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────
+   HOW IT WORKS
+───────────────────────────────── */
+.how-section {
+  background: var(--cream);
+  padding: 120px 48px;
+}
+
+.how-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.how-header {
+  text-align: center;
+  margin-bottom: 72px;
+}
+.how-header .section-title { font-size: clamp(36px, 4vw, 52px); }
+.how-header p {
+  font-size: 16px;
+  color: var(--ink-mid);
+  margin-top: 16px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  position: relative;
+}
+
+.how-steps::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(16.67% + 28px);
+  right: calc(16.67% + 28px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--terracotta), var(--sand-mid), var(--terracotta));
+  opacity: 0.4;
+}
+
+.how-step {
+  padding: 0 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.how-step-num {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 1px solid var(--border-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: 20px;
+  color: var(--terracotta);
+  position: relative;
+  z-index: 1;
+}
+
+.how-step-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.how-step-body {
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.65;
+}
+
+/* ─────────────────────────────────
+   CAMPUSES / TRACTION
+───────────────────────────────── */
+.traction-section {
+  background: var(--cream-dark);
+  padding: 100px 48px;
+}
+
+.traction-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.traction-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 52px;
+  gap: 32px;
+}
+
+.traction-top .section-title { font-size: clamp(32px, 3.5vw, 46px); }
+
+.traction-top p {
+  font-size: 15px;
+  color: var(--ink-mid);
+  max-width: 380px;
+  line-height: 1.65;
+  text-align: right;
+}
+
+.traction-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--border-mid);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.t-stat {
+  padding: 32px 28px;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+}
+.t-stat:last-child { border-right: none; }
+
+.t-stat-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: 44px;
+  color: var(--terracotta);
+  line-height: 1;
+}
+
+.t-stat-label {
+  font-size: 13px;
+  color: var(--ink-mid);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.campus-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.campus-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border-mid);
+  color: var(--ink-mid);
+  background: var(--white);
+}
+.campus-tag.featured {
+  background: var(--ink);
+  color: var(--cream);
+  border-color: var(--ink);
+}
+
+.campus-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-right: 4px;
+}
+
+/* ─────────────────────────────────
+   TEAM
+───────────────────────────────── */
+.team-section {
+  background: var(--dark-bg);
+  padding: 120px 48px;
+}
+
+.team-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.team-header {
+  margin-bottom: 56px;
+}
+.team-header .section-title { font-size: clamp(36px, 4vw, 52px); margin-top: 12px; }
+.team-header p {
+  font-size: 16px;
+  color: var(--dark-sub);
+  margin-top: 16px;
+  max-width: 500px;
+  line-height: 1.7;
+}
+
+.team-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.team-card {
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: 12px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tc-avatar {
+  width: 52px; height: 52px;
+  border-radius: 10px;
+  background: rgba(201,106,69,0.12);
+  border: 1px solid rgba(201,106,69,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--terra-light);
+}
+
+.tc-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--dark-text);
+}
+.tc-role {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--terra-light);
+}
+.tc-school {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(201,106,69,0.08);
+  border: 1px solid rgba(201,106,69,0.15);
+  color: var(--terra-light);
+  letter-spacing: 0.5px;
+}
+.tc-bio {
+  font-size: 14px;
+  color: var(--dark-sub);
+  line-height: 1.65;
+}
+
+.team-quote {
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: 12px;
+  padding: 28px 36px;
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.tq-mark {
+  font-family: 'Fraunces', serif;
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--terracotta);
+  opacity: 0.4;
+  line-height: 0.8;
+  flex-shrink: 0;
+}
+
+.tq-text {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 17px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.65;
+}
+
+/* ─────────────────────────────────
+   FINAL CTA
+───────────────────────────────── */
+.cta-section {
+  background: var(--dark-bg);
+  padding: 120px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-glow {
+  position: absolute;
+  width: 700px; height: 400px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(201,106,69,0.12) 0%, transparent 65%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.cta-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-inner .section-title {
+  font-size: clamp(40px, 5vw, 64px);
+  margin-top: 14px;
+  margin-bottom: 20px;
+}
+.cta-inner p {
+  font-size: 17px;
+  color: var(--dark-sub);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+.cta-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-contact {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--dark-border);
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.contact-item {
+  text-align: center;
+}
+.ci-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--dark-faint);
+  margin-bottom: 5px;
+}
+.ci-val {
+  font-size: 14px;
+  color: var(--dark-sub);
+}
+.ci-val a {
+  color: var(--dark-sub);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.ci-val a:hover { color: var(--terra-light); }
+
+/* ─────────────────────────────────
+   FOOTER
+───────────────────────────────── */
+footer {
+  background: var(--dark-bg);
+  border-top: 1px solid var(--dark-border);
+  padding: 32px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-wordmark {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: 18px;
+  color: rgba(255,255,255,0.3);
+}
+
+.footer-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.2);
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+.footer-links a {
+  font-size: 13px;
+  color: rgba(255,255,255,0.25);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--dark-sub); }
+
+/* ─────────────────────────────────
+   SCROLL ANIMATIONS
+───────────────────────────────── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-in-delay-1 { transition-delay: 0.1s; }
+.fade-in-delay-2 { transition-delay: 0.2s; }
+.fade-in-delay-3 { transition-delay: 0.3s; }
+.fade-in-delay-4 { transition-delay: 0.4s; }
+.fade-in-delay-5 { transition-delay: 0.5s; }
+
+/* ─────────────────────────────────
+   RESPONSIVE
+───────────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+
+  .hero { padding: 100px 24px 64px; }
+  .hero-stats { flex-wrap: wrap; }
+  .hero-stat { border-bottom: 1px solid var(--dark-border); flex: 1 1 40%; }
+
+  .agent-section { padding: 60px 24px 80px; }
+  .agent-demo { grid-template-columns: 1fr; gap: 24px; }
+  .agent-flow-arrow { flex-direction: row; padding: 0; }
+  .flow-line { width: 28px; height: 1px;
+    background: linear-gradient(to right, rgba(201,106,69,0.4), transparent); }
+
+  .features-section, .students-section, .how-section,
+  .traction-section, .team-section, .cta-section { padding: 80px 24px; }
+  .pm-section { padding: 80px 24px; }
+
+  .features-grid { grid-template-columns: 1fr; }
+  .students-inner { grid-template-columns: 1fr; gap: 40px; }
+  .pm-grid { grid-template-columns: 1fr; }
+  .pm-pricing { flex-direction: column; gap: 24px; }
+  .how-steps { grid-template-columns: 1fr; }
+  .how-steps::before { display: none; }
+  .how-step { padding: 24px 0; }
+  .traction-stats { grid-template-columns: 1fr 1fr; }
+  .t-stat { border-bottom: 1px solid var(--border); }
+  .traction-top { flex-direction: column; align-items: flex-start; }
+  .traction-top p { text-align: left; }
+  .team-cards { grid-template-columns: 1fr; }
+  .team-quote { flex-direction: column; gap: 12px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+  .cta-contact { gap: 24px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ─────────────────────────────
+     NAV
+───────────────────────────── -->
+<nav>
+  <a href="#" class="nav-wordmark">Apateu</a>
+  <ul class="nav-links">
+    <li><a href="#product">Product</a></li>
+    <li><a href="#for-pms">For Property Managers</a></li>
+    <li><a href="#company">Company</a></li>
+  </ul>
+  <a href="https://apps.apple.com/app/id6745530032" class="btn btn-primary">Download App</a>
+</nav>
+
+<!-- ─────────────────────────────
+     HERO
+───────────────────────────── -->
+<section class="hero">
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <div class="hero-glow hero-glow-3"></div>
+
+  <div class="hero-inner">
+    <div class="hero-badge fade-in">
+      <div class="hero-badge-dot"></div>
+      <div class="hero-badge-text">iOS Live · 7 Campuses · 1,000+ Students</div>
+    </div>
+
+    <h1 class="hero-headline fade-in fade-in-delay-1">
+      Student housing,<br>
+      built for <em>AI agents.</em>
+    </h1>
+
+    <div class="hero-subtitle fade-in fade-in-delay-2">
+      The AI Infrastructure Layer for Student Real Estate
+    </div>
+
+    <p class="hero-desc fade-in fade-in-delay-3">
+      Ask Claude or ChatGPT to find your next apartment. Apateu makes student housing queryable, bookable, and transactable by any AI agent — turning natural language into a signed lease.
+    </p>
+
+    <div class="hero-actions fade-in fade-in-delay-4">
+      <a href="https://apps.apple.com/app/id6745530032" class="btn btn-primary">Download on iOS</a>
+      <a href="#for-pms" class="btn btn-outline-dark">Partner With Us</a>
+    </div>
+
+    <div class="hero-stats fade-in fade-in-delay-5">
+      <div class="hero-stat">
+        <div class="hero-stat-num">7</div>
+        <div class="hero-stat-lbl">Universities</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">1K+</div>
+        <div class="hero-stat-lbl">Students</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">$35B</div>
+        <div class="hero-stat-lbl">Market SAM</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">MCP</div>
+        <div class="hero-stat-lbl">Agent Protocol</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+     AGENT DEMO
+───────────────────────────── -->
+<section class="agent-section" id="product">
+  <div class="agent-inner">
+    <div class="agent-header fade-in">
+      <div class="tag dark-terra">How It Works</div>
+      <h2 class="section-title light" style="margin-top:14px;">
+        Just ask your AI assistant.<br>
+        <em class="light-em">We handle the rest.</em>
+      </h2>
+      <p>
+        Apateu runs an MCP server — the open protocol that lets AI agents like Claude and ChatGPT call external services. That means student housing is now <strong style="color:rgba(255,255,255,0.75)">natively searchable inside the AI tools students already use</strong>.
+      </p>
+    </div>
+
+    <div class="agent-demo fade-in fade-in-delay-1">
+
+      <!-- Left: chat window -->
+      <div class="chat-window">
+        <div class="chat-titlebar">
+          <div class="chat-dots">
+            <div class="chat-dot"></div>
+            <div class="chat-dot"></div>
+            <div class="chat-dot"></div>
+          </div>
+          <div class="chat-titlebar-label">Claude / ChatGPT</div>
+        </div>
+        <div class="chat-body">
+          <div class="chat-msg user">
+            <div class="chat-bubble user-bubble">
+              Find me a 2BR sublease near USC, June through August, under $1,800/month
+            </div>
+            <div class="chat-avatar user-avatar">👤</div>
+          </div>
+          <div class="chat-msg">
+            <div class="chat-avatar ai-avatar">A</div>
+            <div>
+              <div class="chat-bubble ai-bubble">
+                I'll search Apateu's verified student housing network for you...
+              </div>
+              <div class="chat-result-card" style="margin-top:10px; max-width:270px;">
+                <div class="crc-address">Ellendale Pl, Los Angeles</div>
+                <div class="crc-price">$1,650 / mo · June–Aug</div>
+                <div class="crc-tags">
+                  <span class="crc-tag">Verified Student</span>
+                  <span class="crc-tag">2BR · 1BA</span>
+                  <span class="crc-tag">0.3mi USC</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="chat-msg">
+            <div class="chat-avatar ai-avatar">A</div>
+            <div class="chat-bubble ai-bubble">
+              Found <span class="highlight">4 verified matches</span>. Want me to book a showing or draft the sublease contract?
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middle: flow -->
+      <div class="agent-flow-arrow">
+        <div class="flow-line"></div>
+        <div class="flow-mcp-badge">
+          <div class="fmb-label">Apateu MCP</div>
+          <div class="fmb-sub">Agent-Callable API</div>
+        </div>
+        <div class="flow-line"></div>
+      </div>
+
+      <!-- Right: results -->
+      <div class="results-window">
+        <div class="rw-header">
+          <div class="rw-title">Verified Listings</div>
+          <div class="rw-count">4 matches</div>
+        </div>
+        <div class="rw-body">
+          <div class="listing-card">
+            <div class="lc-top">
+              <div class="lc-addr">Ellendale Pl<br>Los Angeles, CA</div>
+              <div class="lc-price">$1,650/mo</div>
+            </div>
+            <div class="lc-meta">2BR · 1BA · June 1 – Aug 31</div>
+            <div class="lc-tags">
+              <span class="lc-tag verified">Verified</span>
+              <span class="lc-tag available">Available</span>
+            </div>
+          </div>
+          <div class="listing-card">
+            <div class="lc-top">
+              <div class="lc-addr">W 30th St<br>Los Angeles, CA</div>
+              <div class="lc-price">$1,750/mo</div>
+            </div>
+            <div class="lc-meta">2BR · 1BA · May 15 – Sep 1</div>
+            <div class="lc-tags">
+              <span class="lc-tag verified">Verified</span>
+              <span class="lc-tag available">Available</span>
+            </div>
+          </div>
+          <div class="listing-card">
+            <div class="lc-top">
+              <div class="lc-addr">Hoover St<br>Los Angeles, CA</div>
+              <div class="lc-price">$1,580/mo</div>
+            </div>
+            <div class="lc-meta">2BR · 2BA · June 1 – Aug 15</div>
+            <div class="lc-tags">
+              <span class="lc-tag verified">Verified</span>
+              <span class="lc-tag available">Available</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="agent-caption fade-in fade-in-delay-2">
+      <strong>No portals. No phone calls. No PDFs.</strong> Apateu is the infrastructure layer that makes student housing a first-class data source for every AI agent — and turns a conversation into a closed transaction.
+    </div>
+    <div class="ai-logos fade-in fade-in-delay-3">
+      <div class="ai-logo-pill"><span>🤖</span> Claude</div>
+      <div class="ai-logo-pill"><span>💬</span> ChatGPT</div>
+      <div class="ai-logo-pill"><span>✦</span> Any MCP-compatible agent</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+     FEATURES
+───────────────────────────── -->
+<section class="features-section">
+  <div class="features-inner">
+    <div class="features-header fade-in">
+      <div class="tag terra">Platform</div>
+      <h2 class="section-title" style="margin-top:12px;">
+        Infrastructure for the<br><em>next generation</em> of renters.
+      </h2>
+      <p>Everything students need to list, find, and close housing deals — and the protocol layer that makes it all queryable by AI.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card fade-in">
+        <div class="feat-icon">🔌</div>
+        <div class="feat-title">MCP Protocol — Agent-Callable API</div>
+        <div class="feat-body">Apateu exposes all listings through the Model Context Protocol. Any AI assistant can query, filter, and act on verified student housing data in real time.</div>
+      </div>
+      <div class="feat-card fade-in fade-in-delay-1">
+        <div class="feat-icon sage-icon">✅</div>
+        <div class="feat-title">Verified Student Listings</div>
+        <div class="feat-body">Every listing is tied to a verified student identity. No scams, no ghost listings. Safe for both sublessors and tenants — and trustworthy enough for AI agents to act on.</div>
+      </div>
+      <div class="feat-card fade-in fade-in-delay-2">
+        <div class="feat-icon blue-icon">📄</div>
+        <div class="feat-title">AI-Generated Contracts</div>
+        <div class="feat-body">Sublease agreements generated by AI in seconds, signed in-app with e-signature. No DocuSign, no lawyers, no PDF email chains.</div>
+      </div>
+      <div class="feat-card fade-in fade-in-delay-3">
+        <div class="feat-icon">🏦</div>
+        <div class="feat-title">Escrow Payments</div>
+        <div class="feat-body">Rent and security deposits held in escrow. Money moves only when both parties confirm. Full protection for every transaction on the platform.</div>
+      </div>
+      <div class="feat-card fade-in fade-in-delay-4">
+        <div class="feat-icon sage-icon">📅</div>
+        <div class="feat-title">Automated Showing Scheduling</div>
+        <div class="feat-body">AI agents can book property viewings directly through Apateu's API. Calendar coordination happens instantly — no back-and-forth.</div>
+      </div>
+      <div class="feat-card fade-in fade-in-delay-5">
+        <div class="feat-icon blue-icon">🛋️</div>
+        <div class="feat-title">Secondhand Marketplace</div>
+        <div class="feat-body">Buy and sell furniture, electronics, and dorm essentials within your campus network. Year-round, peer-verified, hyper-local.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+     FOR STUDENTS
+───────────────────────────── -->
+<section class="students-section">
+  <div class="students-inner">
+    <div class="students-text fade-in">
+      <div class="tag terra">For Students</div>
+      <h2 class="section-title" style="margin-top:12px;">
+        List once.<br>
+        Get found by<br>
+        <em>every AI agent.</em>
+      </h2>
+      <p>
+        Post your sublease on Apateu and it becomes instantly queryable by Claude, ChatGPT, and any other AI assistant. Your listing reaches renters who never even open a housing app.
+      </p>
+      <a href="https://apps.apple.com/app/id6745530032" class="btn btn-primary">Download on iOS</a>
+    </div>
+    <div class="students-cards fade-in fade-in-delay-1">
+      <div class="sc-card">
+        <div class="sc-num">01</div>
+        <div>
+          <div class="sc-content-title">Post a verified sublease in minutes</div>
+          <div class="sc-content-body">List your apartment with photos, dates, and price. Get verified once, list as many times as you need — every semester.</div>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-num">02</div>
+        <div>
+          <div class="sc-content-title">Sign contracts and collect payments in-app</div>
+          <div class="sc-content-body">AI generates the sublease agreement. Both parties sign digitally. Rent is collected through escrow — no Venmo, no risk.</div>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-num">03</div>
+        <div>
+          <div class="sc-content-title">Buy and sell through the campus marketplace</div>
+          <div class="sc-content-body">Moving out? Sell your furniture to the next tenant directly. Peer-to-peer, campus-verified, no strangers from Craigslist.</div>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-num">04</div>
+        <div>
+          <div class="sc-content-title">Chat with an AI leasing assistant</div>
+          <div class="sc-content-body">Questions about your lease terms, move-in logistics, or local rules? The AI assistant lives inside every chatroom.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+     FOR PROPERTY MANAGERS
+───────────────────────────── -->
+<section class="pm-section" id="for-pms">
+  <div class="pm-glow"></div>
+  <div class="pm-inner">
+    <div class="pm-header fade-in">
+      <div class="tag dark-terra">For Property Managers</div>
+      <h2 class="section-title light" style="margin-top:12px;">
+        Your autonomous<br>
+        <em class="light-em">AI leasing agent.</em>
+      </h2>
+      <p>
+        Stop paying for leads. Start running an autonomous tenant acquisition pipeline. Apateu's AI handles discovery, inquiry, scheduling, contracts, and payments — 24/7, fully white-labeled.
+      </p>
+    </div>
+
+    <div class="pm-grid fade-in fade-in-delay-1">
+      <div class="pm-card">
+        <div class="pm-card-icon">🤖</div>
+        <div class="pm-card-title">Autonomous Tenant Acquisition</div>
+        <div class="pm-card-body">The AI agent handles the entire funnel from discovery to signed lease without human intervention. It responds to inquiries, schedules showings, and generates state-compliant contracts automatically.</div>
+      </div>
+      <div class="pm-card">
+        <div class="pm-card-icon">🔌</div>
+        <div class="pm-card-title">Inventory in Every AI Agent's Search</div>
+        <div class="pm-card-body">Your units appear in Apateu's MCP layer — meaning students using Claude, ChatGPT, or any AI assistant can find and book your properties directly from a conversation.</div>
+      </div>
+      <div class="pm-card">
+        <div class="pm-card-icon">🎨</div>
+        <div class="pm-card-title">White-Labeled Interface</div>
+        <div class="pm-card-body">Your brand, Apateu's rails. The tenant experience carries your company's identity. The infrastructure — contracts, payments, verification — runs entirely on Apateu.</div>
+      </div>
+      <div class="pm-card">
+        <div class="pm-card-icon">📊</div>
+        <div class="pm-card-title">Analytics & Lease Dashboard</div>
+        <div class="pm-card-body">Full visibility into occupancy, inquiry velocity, conversion rates, and payment status. One dashboard for your entire student housing portfolio.</div>
+      </div>
+    </div>
+
+    <div class="pm-pricing fade-in fade-in-delay-2">
+      <div class="pp-features">
+        <div class="pp-feat">Autonomous AI leasing agent included</div>
+        <div class="pp-feat">Unlimited listings and showing schedules</div>
+        <div class="pp-feat">AI contract generation + e-signature</div>
+        <div class="pp-feat">Escrow payment processing</div>
+        <div class="pp-feat">MCP API access — inventory in all AI agents</div>
+        <div class="pp-feat">White-labeled tenant experience</div>
+      </div>
+      <a href="mailto:apateu.app@gmail.com" class="btn btn-primary" style="flex-shrink:0; align-self:center;">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+     HOW IT WORKS (simplified)
+───────────────────────────── -->
+<section class="how-section">
+  <div class="how-inner">
+    <div class="how-header fade-in">
+      <div class="tag terra">End-to-End Flow</div>
+      <h2 class="section-title" style="margin-top:14px;">
+        From conversation to<br><em>closed deal.</em>
+      </h2>
+      <p>Three steps. No portals. No paperwork.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step fade-in">
+        <div class="how-step-num">1</div>
+        <div class="how-step-title">Ask Any AI Agent</div>
+        <div class="how-step-body">
+          A student asks Claude, ChatGPT, or any MCP-compatible assistant to find housing. The agent calls Apateu's API and gets back verified, structured results instantly.
+        </div>
+      </div>
+      <div class="how-step fade-in fade-in-delay-1">
+        <div class="how-step-num">2</div>
+        <div class="how-step-title">Book, Verify, Agree</div>
+        <div class="how-step-body">
+          The agent schedules a showing. Both parties verify identity. AI generates a state-compliant lease agreement and both sign digitally — all within a single conversation.
+        </div>
+      </div>
+      <div class="how-step fade-in fade-in-delay-2">
+        <div class="how-step-num">3</div>
+        <div class="how-step-title">Pay Safely</div>
+        <div class="how-step-body">
+          Rent and deposits are held in escrow. Funds release automatically on move-in. Both sides are protected from the first payment to the last.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+     TRACTION
+───────────────────────────── -->
+<section class="traction-section">
+  <div class="traction-inner">
+    <div class="traction-top fade-in">
+      <div>
+        <div class="tag terra">Traction</div>
+        <h2 class="section-title" style="margin-top:12px;">
+          The network seed<br>is already live.
+        </h2>
+      </div>
+      <p>7 campuses active, 1,000+ students on platform, iOS app in the App Store, and a signed partnership with MOVE × USC validating our campus playbook.</p>
+    </div>
+    <div class="traction-stats fade-in fade-in-delay-1">
+      <div class="t-stat">
+        <div class="t-stat-num">7</div>
+        <div class="t-stat-label">Universities<br>Active</div>
+      </div>
+      <div class="t-stat">
+        <div class="t-stat-num">1K+</div>
+        <div class="t-stat-label">Students<br>On Platform</div>
+      </div>
+      <div class="t-stat">
+        <div class="t-stat-num">iOS</div>
+        <div class="t-stat-label">App Store<br>Live Now</div>
+      </div>
+      <div class="t-stat">
+        <div class="t-stat-num">SOW</div>
+        <div class="t-stat-label">MOVE × USC<br>Partnership Signed</div>
+      </div>
+    </div>
+    <div class="campus-row fade-in fade-in-delay-2">
+      <span class="campus-label">Campuses →</span>
+      <span class="campus-tag featured">USC ★</span>
+      <span class="campus-tag">UCLA</span>
+      <span class="campus-tag">UC Berkeley</span>
+      <span class="campus-tag">UW</span>
+      <span class="campus-tag">Columbia</span>
+      <span class="campus-tag">NYU</span>
+      <span class="campus-tag">Stanford</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+     TEAM
+───────────────────────────── -->
+<section class="team-section" id="company">
+  <div class="team-inner">
+    <div class="team-header fade-in">
+      <div class="tag dark">Team</div>
+      <h2 class="section-title light" style="margin-top:12px;">
+        Built by the people who<br><em class="light-em">lived the problem.</em>
+      </h2>
+      <p>USC and UCLA alumni who struggled through broken student housing systems firsthand — and saw the infrastructure gap before anyone was building for it.</p>
+    </div>
+    <div class="team-cards fade-in fade-in-delay-1">
+      <div class="team-card">
+        <div class="tc-avatar">J</div>
+        <div class="tc-name">James Tian</div>
+        <div class="tc-role">Founder & CEO</div>
+        <div class="tc-school">USC Alumni</div>
+        <div class="tc-bio">Leads product, go-to-market, and investor relations. Experienced the broken student housing system firsthand as an international student — and saw the infrastructure gap before anyone was building for it.</div>
+      </div>
+      <div class="team-card">
+        <div class="tc-avatar">D</div>
+        <div class="tc-name">Danbi Jang</div>
+        <div class="tc-role">Co-Founder</div>
+        <div class="tc-school">UCLA Alumni</div>
+        <div class="tc-bio">Leads marketing, AI asset production, and visual identity. Drives the campus brand system that makes each market launch feel native and peer-trusted, not corporate.</div>
+      </div>
+    </div>
+    <div class="team-quote fade-in fade-in-delay-2">
+      <div class="tq-mark">"</div>
+      <div class="tq-text">We paid for empty rooms we couldn't sublease and struggled every move-in season to buy or sell furniture safely. The infrastructure to solve it didn't exist — so we're building it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+     CTA
+───────────────────────────── -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <div class="tag dark-terra fade-in">Get Started</div>
+    <h2 class="section-title light fade-in fade-in-delay-1">
+      Ready to make<br>housing <em class="light-em">agent-native?</em>
+    </h2>
+    <p class="fade-in fade-in-delay-2">
+      Whether you're a student looking for housing, a property manager ready to automate tenant acquisition, or an investor exploring the infrastructure layer of AI-native real estate — we'd love to talk.
+    </p>
+    <div class="cta-actions fade-in fade-in-delay-3">
+      <a href="https://apps.apple.com/app/id6745530032" class="btn btn-primary">Download on iOS</a>
+      <a href="mailto:apateu.app@gmail.com" class="btn btn-outline-dark">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
+     FOOTER
+───────────────────────────── -->
+<footer>
+  <div class="footer-wordmark">Apateu</div>
+  <div class="footer-copy">© 2026 APATEU · AI INFRASTRUCTURE FOR STUDENT REAL ESTATE</div>
+  <div class="footer-links">
+    <a href="https://www.app.westapt.com">App</a>
+    <a href="mailto:apateu.app@gmail.com">Contact</a>
+    <a href="#for-pms">For PMs</a>
+  </div>
+</footer>
+
+<!-- ─────────────────────────────
+     SCROLL ANIMATION JS
+───────────────────────────── -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Trigger hero elements immediately
+  document.querySelectorAll('.hero .fade-in').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), i * 120);
+  });
+</script>
+
+</body>
+</html>
