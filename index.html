@@ -982,6 +982,167 @@ nav {
 }
 
 /* ─────────────────────────────────
+   MCP CONNECT
+───────────────────────────────── */
+.mcp-section {
+  background: var(--dark-bg);
+  padding: 120px 48px;
+}
+
+.mcp-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.mcp-header {
+  max-width: 600px;
+  margin-bottom: 64px;
+}
+.mcp-header .section-title { font-size: clamp(36px, 4vw, 52px); }
+.mcp-header p {
+  font-size: 16px;
+  color: var(--dark-sub);
+  margin-top: 16px;
+  line-height: 1.7;
+}
+
+.mcp-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.mcp-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.mcp-step {
+  display: flex;
+  gap: 20px;
+}
+
+.mcp-step-num {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  margin-top: 2px;
+}
+
+.mcp-step-content {}
+.mcp-step-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dark-text);
+  margin-bottom: 6px;
+}
+.mcp-step-body {
+  font-size: 14px;
+  color: var(--dark-sub);
+  line-height: 1.65;
+}
+
+.mcp-code-block {
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.mcp-code-label {
+  padding: 12px 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dark-sub);
+  border-bottom: 1px solid var(--dark-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.04em;
+}
+
+.mcp-code-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  opacity: 0.7;
+}
+
+.mcp-code-block pre {
+  padding: 24px 20px;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--dark-text);
+  overflow-x: auto;
+  margin: 0;
+}
+
+.mcp-code-block pre .key   { color: #9ECBFF; }
+.mcp-code-block pre .val   { color: #9ECBFF; }
+.mcp-code-block pre .str   { color: #9ECBFF; }
+.mcp-code-block pre .url   { color: var(--terra-light); }
+.mcp-code-block pre .punct { color: var(--dark-faint); }
+
+.mcp-queries {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid var(--dark-border);
+}
+
+.mcp-queries-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark-sub);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.mcp-query-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mcp-query {
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--dark-text);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.mcp-query::before {
+  content: '"';
+  color: var(--terracotta);
+  margin-right: 2px;
+}
+.mcp-query::after {
+  content: '"';
+  color: var(--terracotta);
+  margin-left: 2px;
+}
+
+@media (max-width: 768px) {
+  .mcp-section { padding: 80px 24px; }
+  .mcp-body { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ─────────────────────────────────
    CAMPUSES / TRACTION
 ───────────────────────────────── */
 .traction-section {
@@ -1750,6 +1911,81 @@ footer {
 </section>
 
 <!-- ─────────────────────────────
+     MCP CONNECT
+───────────────────────────── -->
+<section class="mcp-section" id="mcp">
+  <div class="mcp-inner">
+    <div class="mcp-header fade-in">
+      <div class="tag dark-terra">For Developers & AI Users</div>
+      <h2 class="section-title light" style="margin-top:14px;">
+        Query listings from<br><em class="light-em">Claude or ChatGPT.</em>
+      </h2>
+      <p>Connect Apateu to any MCP-compatible AI assistant. Ask in plain English — get live listings, photos, and a map. Read-only and free.</p>
+    </div>
+
+    <div class="mcp-body">
+      <!-- Left: steps -->
+      <div class="fade-in">
+        <div class="mcp-steps">
+          <div class="mcp-step">
+            <div class="mcp-step-num">1</div>
+            <div class="mcp-step-content">
+              <div class="mcp-step-title">Open Claude Desktop settings</div>
+              <div class="mcp-step-body">Go to <strong style="color:var(--dark-text)">Settings → Developer → Edit Config</strong> to open <code style="color:var(--terra-light);font-size:13px">claude_desktop_config.json</code>.</div>
+            </div>
+          </div>
+          <div class="mcp-step">
+            <div class="mcp-step-num">2</div>
+            <div class="mcp-step-content">
+              <div class="mcp-step-title">Add the Apateu server</div>
+              <div class="mcp-step-body">Paste the config on the right under <code style="color:var(--terra-light);font-size:13px">mcpServers</code>. No API key needed.</div>
+            </div>
+          </div>
+          <div class="mcp-step">
+            <div class="mcp-step-num">3</div>
+            <div class="mcp-step-content">
+              <div class="mcp-step-title">Restart Claude Desktop</div>
+              <div class="mcp-step-body">Apateu will appear as a connected tool. Start asking about listings.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mcp-queries fade-in fade-in-delay-1">
+          <div class="mcp-queries-title">Example prompts</div>
+          <div class="mcp-query-list">
+            <div class="mcp-query">Find me studios in Los Angeles under $1,500/mo</div>
+            <div class="mcp-query">Show apartments near USC available in May</div>
+            <div class="mcp-query">What private rooms are listed in San Francisco right now?</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: code block -->
+      <div class="fade-in fade-in-delay-1">
+        <div class="mcp-code-block">
+          <div class="mcp-code-label">
+            <span>claude_desktop_config.json</span>
+            <div class="mcp-code-dot"></div>
+          </div>
+          <pre>{
+  <span class="key">"mcpServers"</span>: {
+    <span class="key">"apateu"</span>: {
+      <span class="key">"type"</span>: <span class="str">"sse"</span>,
+      <span class="key">"url"</span>:  <span class="url">"https://westapt.com/mcp/sse"</span>
+    }
+  }
+}</pre>
+        </div>
+        <p style="font-size:13px;color:var(--dark-sub);margin-top:16px;line-height:1.6;">
+          Works with Claude Desktop today. ChatGPT and other MCP-compatible clients coming soon.
+          Listings are read-only — to contact a host or express interest, open the link in the Apateu app.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────
      TRACTION
 ───────────────────────────── -->
 <section class="traction-section">
@@ -1843,6 +2079,7 @@ footer {
     <a href="https://www.app.westapt.com">App</a>
     <a href="mailto:apateu.app@gmail.com">Contact</a>
     <a href="#for-pms">For PMs</a>
+    <a href="#mcp">MCP</a>
   </div>
 </footer>
 
