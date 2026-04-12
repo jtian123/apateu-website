@@ -1094,6 +1094,20 @@ nav {
 .mcp-code-block pre .url   { color: var(--terra-light); }
 .mcp-code-block pre .punct { color: var(--dark-faint); }
 
+.mcp-tab {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: var(--dark-sub);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mcp-tab:hover { border-color: rgba(255,255,255,0.3); color: var(--dark-text); }
+.mcp-tab-active { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); color: var(--dark-text); }
+
 .mcp-queries {
   margin-top: 40px;
   padding-top: 40px;
@@ -1923,8 +1937,14 @@ footer {
       <p>Connect Apateu to any MCP-compatible AI assistant. Ask in plain English — get live listings, photos, and a map. Read-only and free.</p>
     </div>
 
-    <div class="mcp-body">
-      <!-- Left: steps -->
+    <!-- Tab switcher -->
+    <div class="mcp-tabs fade-in" style="display:flex;gap:8px;margin-bottom:32px;">
+      <button class="mcp-tab mcp-tab-active" onclick="switchMcpTab('claude', this)">Claude Desktop</button>
+      <button class="mcp-tab" onclick="switchMcpTab('chatgpt', this)">ChatGPT</button>
+    </div>
+
+    <!-- Claude Desktop -->
+    <div class="mcp-body" id="mcp-tab-claude">
       <div class="fade-in">
         <div class="mcp-steps">
           <div class="mcp-step">
@@ -1949,7 +1969,6 @@ footer {
             </div>
           </div>
         </div>
-
         <div class="mcp-queries fade-in fade-in-delay-1">
           <div class="mcp-queries-title">Example prompts</div>
           <div class="mcp-query-list">
@@ -1959,8 +1978,6 @@ footer {
           </div>
         </div>
       </div>
-
-      <!-- Right: code block -->
       <div class="fade-in fade-in-delay-1">
         <div class="mcp-code-block">
           <div class="mcp-code-label">
@@ -1970,14 +1987,62 @@ footer {
           <pre>{
   <span class="key">"mcpServers"</span>: {
     <span class="key">"apateu"</span>: {
-      <span class="key">"url"</span>: <span class="url">"https://westapt.com/mcp/sse"</span>
+      <span class="key">"url"</span>: <span class="url">"https://westapt.com/mcp"</span>
     }
   }
 }</pre>
         </div>
         <p style="font-size:13px;color:var(--dark-sub);margin-top:16px;line-height:1.6;">
-          Works with Claude Desktop today. ChatGPT and other MCP-compatible clients coming soon.
-          Listings are read-only — to contact a host or express interest, open the link in the Apateu app.
+          No API key needed. Listings are read-only — to contact a host, open the link in the Apateu app.
+        </p>
+      </div>
+    </div>
+
+    <!-- ChatGPT -->
+    <div class="mcp-body" id="mcp-tab-chatgpt" style="display:none;">
+      <div class="fade-in">
+        <div class="mcp-steps">
+          <div class="mcp-step">
+            <div class="mcp-step-num">1</div>
+            <div class="mcp-step-content">
+              <div class="mcp-step-title">Enable Developer Mode</div>
+              <div class="mcp-step-body">In ChatGPT, go to <strong style="color:var(--dark-text)">Settings → Developer Mode</strong> and enable it (currently in beta).</div>
+            </div>
+          </div>
+          <div class="mcp-step">
+            <div class="mcp-step-num">2</div>
+            <div class="mcp-step-content">
+              <div class="mcp-step-title">Add Apateu as a Connector</div>
+              <div class="mcp-step-body">Go to <strong style="color:var(--dark-text)">Connectors → Add</strong> and paste the URL on the right. ChatGPT handles auth automatically — no API key needed.</div>
+            </div>
+          </div>
+          <div class="mcp-step">
+            <div class="mcp-step-num">3</div>
+            <div class="mcp-step-content">
+              <div class="mcp-step-title">Start a conversation</div>
+              <div class="mcp-step-body">Apateu tools are now available in any ChatGPT chat. Ask about listings in plain English.</div>
+            </div>
+          </div>
+        </div>
+        <div class="mcp-queries fade-in fade-in-delay-1">
+          <div class="mcp-queries-title">Example prompts</div>
+          <div class="mcp-query-list">
+            <div class="mcp-query">Find me studios in Los Angeles under $1,500/mo</div>
+            <div class="mcp-query">Show apartments near USC available in May</div>
+            <div class="mcp-query">What private rooms are listed in San Francisco right now?</div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-in fade-in-delay-1">
+        <div class="mcp-code-block">
+          <div class="mcp-code-label">
+            <span>ChatGPT → Settings → Developer Mode → Connectors</span>
+            <div class="mcp-code-dot"></div>
+          </div>
+          <pre><span class="url">https://westapt.com/mcp</span></pre>
+        </div>
+        <p style="font-size:13px;color:var(--dark-sub);margin-top:16px;line-height:1.6;">
+          Requires ChatGPT Developer Mode (currently in beta). ChatGPT will prompt you to authorize — just click Allow. No account or API key needed.
         </p>
       </div>
     </div>
@@ -2102,6 +2167,14 @@ footer {
   document.querySelectorAll('.hero .fade-in').forEach((el, i) => {
     setTimeout(() => el.classList.add('visible'), i * 120);
   });
+
+  // MCP tab switcher
+  function switchMcpTab(tab, btn) {
+    document.getElementById('mcp-tab-claude').style.display  = tab === 'claude'  ? '' : 'none';
+    document.getElementById('mcp-tab-chatgpt').style.display = tab === 'chatgpt' ? '' : 'none';
+    document.querySelectorAll('.mcp-tab').forEach(b => b.classList.remove('mcp-tab-active'));
+    btn.classList.add('mcp-tab-active');
+  }
 </script>
 
 </body>
