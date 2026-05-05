@@ -31,6 +31,13 @@
   --border:      rgba(26,25,22,0.10);
   --border-mid:  rgba(26,25,22,0.18);
 
+  /* violet — owns Pillar II (Brand Agents) */
+  --violet:        #7E22CE;
+  --violet-light:  #A855F7;
+  --violet-pale:   #F2EAFB;
+  --violet-faint:  rgba(126,34,206,0.10);
+  --violet-mid:    rgba(126,34,206,0.22);
+
   /* dark surface */
   --dark-bg:     #141210;
   --dark-surface:#1F1D1A;
@@ -38,6 +45,9 @@
   --dark-text:   rgba(255,255,255,0.88);
   --dark-sub:    rgba(255,255,255,0.48);
   --dark-faint:  rgba(255,255,255,0.20);
+
+  /* deeper night — Pillar II divider */
+  --night:       #0F0D0B;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -178,7 +188,7 @@ nav {
 .hero-glow-2 {
   width: 500px; height: 500px;
   bottom: -80px; left: -80px;
-  background: radial-gradient(circle, rgba(61,90,138,0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(126,34,206,0.22) 0%, transparent 70%);
 }
 .hero-glow-3 {
   width: 400px; height: 400px;
@@ -262,6 +272,20 @@ nav {
   justify-content: center;
   margin-top: 8px;
 }
+
+.hero-tertiary {
+  margin-top: -4px;
+}
+.hero-tertiary a {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--dark-faint);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.hero-tertiary a:hover { color: var(--dark-sub); }
 
 .hero-stats {
   display: flex;
@@ -470,7 +494,7 @@ nav {
   padding: 0 32px;
 }
 
-.flow-mcp-badge {
+.flow-tools-badge {
   background: rgba(201,106,69,0.1);
   border: 1px solid rgba(201,106,69,0.25);
   border-radius: 6px;
@@ -675,12 +699,16 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 22px;
+  color: var(--terracotta);
   background: var(--terra-pale);
   border: 1px solid rgba(201,106,69,0.15);
 }
-.feat-icon.sage-icon { background: var(--sage-pale); border-color: rgba(92,122,101,0.15); }
-.feat-icon.blue-icon { background: var(--blue-pale); border-color: rgba(61,90,138,0.15); }
+.feat-icon.sage-icon { background: var(--sage-pale); border-color: rgba(92,122,101,0.15); color: var(--sage); }
+.feat-icon.blue-icon { background: var(--blue-pale); border-color: rgba(61,90,138,0.15); color: var(--blue); }
 
 .feat-title {
   font-size: 16px;
@@ -768,137 +796,6 @@ nav {
 }
 
 /* ─────────────────────────────────
-   FOR PROPERTY MANAGERS (DARK)
-───────────────────────────────── */
-.pm-section {
-  background: var(--dark-bg);
-  padding: 120px 48px;
-  position: relative;
-  overflow: hidden;
-}
-
-.pm-glow {
-  position: absolute;
-  width: 700px; height: 700px;
-  top: 50%; left: 60%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(61,90,138,0.14) 0%, transparent 65%);
-  filter: blur(60px);
-  pointer-events: none;
-}
-
-.pm-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.pm-header {
-  max-width: 600px;
-  margin-bottom: 64px;
-}
-.pm-header .section-title { font-size: clamp(36px, 4vw, 52px); margin-top: 12px; }
-.pm-header p {
-  font-size: 16px;
-  color: var(--dark-sub);
-  margin-top: 20px;
-  line-height: 1.7;
-}
-
-.pm-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-bottom: 48px;
-}
-
-.pm-card {
-  background: var(--dark-surface);
-  border: 1px solid var(--dark-border);
-  border-radius: 12px;
-  padding: 28px 28px;
-}
-
-.pm-card-icon {
-  font-size: 22px;
-  margin-bottom: 14px;
-}
-
-.pm-card-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--dark-text);
-  margin-bottom: 8px;
-}
-
-.pm-card-body {
-  font-size: 14px;
-  color: var(--dark-sub);
-  line-height: 1.65;
-}
-
-.pm-pricing {
-  background: var(--dark-surface);
-  border: 1px solid rgba(61,90,138,0.3);
-  border-radius: 12px;
-  padding: 32px 36px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-}
-
-.pp-left .pp-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(61,90,138,0.8);
-  margin-bottom: 8px;
-}
-.pp-price {
-  font-family: 'Fraunces', serif;
-  font-weight: 300;
-  font-size: 42px;
-  color: var(--dark-text);
-  line-height: 1;
-}
-.pp-price span {
-  font-size: 18px;
-  color: var(--dark-sub);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 400;
-}
-.pp-sub {
-  font-size: 13px;
-  color: var(--dark-sub);
-  margin-top: 6px;
-}
-
-.pp-features {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-}
-
-.pp-feat {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--dark-sub);
-}
-.pp-feat::before {
-  content: '✓';
-  color: var(--sage);
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-/* ─────────────────────────────────
    HOW IT WORKS
 ───────────────────────────────── */
 .how-section {
@@ -979,181 +876,6 @@ nav {
   font-size: 14px;
   color: var(--ink-mid);
   line-height: 1.65;
-}
-
-/* ─────────────────────────────────
-   MCP CONNECT
-───────────────────────────────── */
-.mcp-section {
-  background: var(--dark-bg);
-  padding: 120px 48px;
-}
-
-.mcp-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.mcp-header {
-  max-width: 600px;
-  margin-bottom: 64px;
-}
-.mcp-header .section-title { font-size: clamp(36px, 4vw, 52px); }
-.mcp-header p {
-  font-size: 16px;
-  color: var(--dark-sub);
-  margin-top: 16px;
-  line-height: 1.7;
-}
-
-.mcp-body {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: start;
-}
-
-.mcp-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.mcp-step {
-  display: flex;
-  gap: 20px;
-}
-
-.mcp-step-num {
-  flex-shrink: 0;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: var(--terracotta);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: white;
-  margin-top: 2px;
-}
-
-.mcp-step-content {}
-.mcp-step-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--dark-text);
-  margin-bottom: 6px;
-}
-.mcp-step-body {
-  font-size: 14px;
-  color: var(--dark-sub);
-  line-height: 1.65;
-}
-
-.mcp-code-block {
-  background: var(--dark-surface);
-  border: 1px solid var(--dark-border);
-  border-radius: 14px;
-  overflow: hidden;
-}
-
-.mcp-code-label {
-  padding: 12px 20px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--dark-sub);
-  border-bottom: 1px solid var(--dark-border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: 'DM Mono', monospace;
-  letter-spacing: 0.04em;
-}
-
-.mcp-code-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--terracotta);
-  opacity: 0.7;
-}
-
-.mcp-code-block pre {
-  padding: 24px 20px;
-  font-family: 'DM Mono', monospace;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--dark-text);
-  overflow-x: auto;
-  margin: 0;
-}
-
-.mcp-code-block pre .key   { color: #9ECBFF; }
-.mcp-code-block pre .val   { color: #9ECBFF; }
-.mcp-code-block pre .str   { color: #9ECBFF; }
-.mcp-code-block pre .url   { color: var(--terra-light); }
-.mcp-code-block pre .punct { color: var(--dark-faint); }
-
-.mcp-tab {
-  padding: 8px 20px;
-  border-radius: 20px;
-  border: 1.5px solid rgba(255,255,255,0.15);
-  background: transparent;
-  color: var(--dark-sub);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.mcp-tab:hover { border-color: rgba(255,255,255,0.3); color: var(--dark-text); }
-.mcp-tab-active { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); color: var(--dark-text); }
-
-.mcp-queries {
-  margin-top: 40px;
-  padding-top: 40px;
-  border-top: 1px solid var(--dark-border);
-}
-
-.mcp-queries-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--dark-sub);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-}
-
-.mcp-query-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.mcp-query {
-  background: var(--dark-surface);
-  border: 1px solid var(--dark-border);
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 14px;
-  color: var(--dark-text);
-  font-style: italic;
-  line-height: 1.4;
-}
-
-.mcp-query::before {
-  content: '"';
-  color: var(--terracotta);
-  margin-right: 2px;
-}
-.mcp-query::after {
-  content: '"';
-  color: var(--terracotta);
-  margin-left: 2px;
-}
-
-@media (max-width: 768px) {
-  .mcp-section { padding: 80px 24px; }
-  .mcp-body { grid-template-columns: 1fr; gap: 40px; }
 }
 
 /* ─────────────────────────────────
@@ -1500,6 +1222,381 @@ footer {
 .fade-in-delay-5 { transition-delay: 0.5s; }
 
 /* ─────────────────────────────────
+   PILLAR DIVIDERS — editorial chapter heading
+───────────────────────────────── */
+.pillar-divider {
+  position: relative;
+  padding: 96px 48px 32px;
+  text-align: center;
+  overflow: hidden;
+}
+.pillar-divider.terra { background: var(--cream); }
+.pillar-divider.violet {
+  background: var(--night);
+  border-top: 1px solid var(--dark-border);
+}
+
+.pillar-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  max-width: 720px;
+  margin: 0 auto 8px;
+}
+.pillar-rule::before,
+.pillar-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+}
+.pillar-divider.terra .pillar-rule::before,
+.pillar-divider.terra .pillar-rule::after {
+  background: linear-gradient(90deg, transparent, var(--border-mid), transparent);
+}
+.pillar-divider.violet .pillar-rule::before,
+.pillar-divider.violet .pillar-rule::after {
+  background: linear-gradient(90deg, transparent, rgba(168,85,247,0.30), transparent);
+}
+
+.pillar-numeral {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(96px, 12vw, 144px);
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+}
+.pillar-divider.terra .pillar-numeral { color: var(--terracotta); }
+.pillar-divider.violet .pillar-numeral {
+  background: linear-gradient(135deg, var(--violet-light), var(--violet));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pillar-kicker {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+.pillar-divider.terra .pillar-kicker { color: var(--ink-light); }
+.pillar-divider.violet .pillar-kicker { color: rgba(255,255,255,0.5); }
+
+.pillar-lede {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(20px, 2.2vw, 26px);
+  line-height: 1.45;
+  max-width: 640px;
+  margin: 24px auto 0;
+}
+.pillar-divider.terra .pillar-lede { color: var(--ink); }
+.pillar-divider.terra .pillar-lede em { font-style: italic; color: var(--terracotta); }
+.pillar-divider.violet .pillar-lede { color: var(--dark-text); }
+.pillar-divider.violet .pillar-lede em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--violet-light), #C77DFF);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pillar-divider.violet::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(126,34,206,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 100%, rgba(168,85,247,0.12) 0%, transparent 55%);
+  pointer-events: none;
+}
+.pillar-divider > * { position: relative; z-index: 1; }
+
+/* ─────────────────────────────────
+   BRAND AGENTS (PILLAR II)
+───────────────────────────────── */
+.brand-section {
+  background: var(--night);
+  padding: 80px 48px 140px;
+  position: relative;
+  overflow: hidden;
+}
+.brand-section::before {
+  content: '';
+  position: absolute;
+  width: 800px; height: 800px;
+  top: 10%; right: -200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(126,34,206,0.16) 0%, transparent 65%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.brand-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Manifesto — asymmetric two-column */
+.brand-manifesto {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 96px;
+  align-items: start;
+  padding: 24px 0 96px;
+  border-bottom: 1px solid var(--dark-border);
+}
+
+.brand-manifesto-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(168,85,247,0.85);
+  margin-bottom: 24px;
+}
+
+.brand-manifesto-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(40px, 4.2vw, 60px);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--dark-text);
+}
+.brand-manifesto-title em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--violet-light), #DDA0FF);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-manifesto-body {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.brand-manifesto-body p {
+  font-size: 17px;
+  line-height: 1.72;
+  color: rgba(255,255,255,0.62);
+}
+.brand-manifesto-body p strong {
+  color: var(--dark-text);
+  font-weight: 500;
+}
+
+/* Roster — five role cards */
+.brand-roster {
+  padding: 96px 0;
+  border-bottom: 1px solid var(--dark-border);
+}
+.brand-roster-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+.brand-roster-head .pillar-kicker {
+  color: rgba(168,85,247,0.85);
+  margin: 0;
+}
+.brand-roster-head h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.15;
+  color: var(--dark-text);
+  margin-top: 12px;
+  letter-spacing: -0.01em;
+}
+.brand-roster-head h3 em {
+  font-style: italic;
+  color: var(--violet-light);
+}
+.brand-roster-head .brand-roster-aside {
+  font-size: 14px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.6;
+  max-width: 320px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.brand-roster-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--dark-border);
+  border: 1px solid var(--dark-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.brand-role {
+  background: var(--dark-surface);
+  padding: 32px 26px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 320px;
+  transition: background 0.25s ease;
+}
+.brand-role:hover {
+  background: rgba(126,34,206,0.08);
+}
+.brand-role-mark {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(168,85,247,0.18), rgba(126,34,206,0.10));
+  border: 1px solid rgba(168,85,247,0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--violet-light);
+}
+.brand-role-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--dark-text);
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+.brand-role-tagline {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.55;
+}
+.brand-role-caps {
+  list-style: none;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.brand-role-caps li {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.4px;
+  color: rgba(255,255,255,0.40);
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.5;
+}
+.brand-role-caps li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.55em;
+  width: 6px; height: 1px;
+  background: var(--violet-light);
+}
+
+/* Service flow — customize / build / deploy */
+.brand-service {
+  padding: 96px 0 0;
+}
+.brand-service-head {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.brand-service-head .pillar-kicker {
+  color: rgba(168,85,247,0.85);
+}
+.brand-service-head h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(32px, 3.4vw, 46px);
+  line-height: 1.1;
+  color: var(--dark-text);
+  margin-top: 14px;
+  letter-spacing: -0.01em;
+}
+.brand-service-head h3 em {
+  font-style: italic;
+  color: var(--violet-light);
+}
+
+.brand-service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--dark-border);
+  border: 1px solid var(--dark-border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 56px;
+}
+
+.brand-step {
+  background: var(--dark-surface);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.brand-step-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--violet-light);
+}
+.brand-step-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: 26px;
+  color: var(--dark-text);
+  letter-spacing: -0.01em;
+}
+.brand-step-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+}
+.brand-step-list li {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.55;
+}
+.brand-step-list li::before {
+  content: '─';
+  position: absolute;
+  left: 0;
+  color: var(--violet-light);
+  opacity: 0.6;
+}
+
+.brand-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+.brand-cta-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.40);
+  text-transform: uppercase;
+}
+
+/* ─────────────────────────────────
    RESPONSIVE
 ───────────────────────────────── */
 @media (max-width: 900px) {
@@ -1518,13 +1615,21 @@ footer {
 
   .features-section, .students-section, .how-section,
   .traction-section, .team-section, .cta-section { padding: 80px 24px; }
-  .pm-section { padding: 80px 24px; }
 
   .features-grid { grid-template-columns: 1fr; }
   .students-inner { grid-template-columns: 1fr; gap: 40px; }
-  .pm-grid { grid-template-columns: 1fr; }
-  .pm-pricing { flex-direction: column; gap: 24px; }
   .how-steps { grid-template-columns: 1fr; }
+
+  .pillar-divider { padding: 64px 24px 24px; }
+  .brand-section { padding: 48px 24px 96px; }
+  .brand-manifesto { grid-template-columns: 1fr; gap: 32px; padding: 16px 0 64px; }
+  .brand-roster { padding: 64px 0; }
+  .brand-roster-head { flex-direction: column; align-items: flex-start; }
+  .brand-roster-head .brand-roster-aside { text-align: left; }
+  .brand-roster-grid { grid-template-columns: 1fr 1fr; }
+  .brand-role { min-height: auto; }
+  .brand-service { padding: 64px 0 0; }
+  .brand-service-grid { grid-template-columns: 1fr; }
   .how-steps::before { display: none; }
   .how-step { padding: 24px 0; }
   .traction-stats { grid-template-columns: 1fr 1fr; }
@@ -1548,11 +1653,11 @@ footer {
 <nav>
   <a href="#" class="nav-wordmark">Apateu</a>
   <ul class="nav-links">
-    <li><a href="#product">Product</a></li>
-    <li><a href="#for-pms">For Property Managers</a></li>
+    <li><a href="#housing">Housing</a></li>
+    <li><a href="#brand-agents">Brand Agents</a></li>
     <li><a href="#company">Company</a></li>
   </ul>
-  <a href="https://apps.apple.com/app/id6745530032" class="btn btn-primary">Download App</a>
+  <a href="mailto:apateu.app@gmail.com?subject=Apateu%20Design%20Partnership" class="btn btn-primary">Book a partnership call</a>
 </nav>
 
 <!-- ─────────────────────────────
@@ -1566,25 +1671,29 @@ footer {
   <div class="hero-inner">
     <div class="hero-badge fade-in">
       <div class="hero-badge-dot"></div>
-      <div class="hero-badge-text">iOS Live · 7 Campuses · 300K+ Students Reachable</div>
+      <div class="hero-badge-text">iOS Live · 7 Campuses · 10K+ Students Reachable</div>
     </div>
 
     <h1 class="hero-headline fade-in fade-in-delay-1">
-      Student housing,<br>
-      built for <em>AI agents.</em>
+      Two systems, one bet on<br>
+      <em>agent-native real estate.</em>
     </h1>
 
     <div class="hero-subtitle fade-in fade-in-delay-2">
-      The AI Infrastructure Layer for Student Real Estate
+      Apateu · Agentic Infrastructure for Student Housing
     </div>
 
     <p class="hero-desc fade-in fade-in-delay-3">
-      Ask Claude or ChatGPT to find your next apartment. Apateu makes student housing queryable, bookable, and transactable by any AI agent — turning natural language into a signed lease.
+      We build agent-native housing — where natural language becomes a signed lease — and the brand-agent systems that let property managers run it. Both shipped, both in production.
     </p>
 
     <div class="hero-actions fade-in fade-in-delay-4">
-      <a href="https://apps.apple.com/app/id6745530032" class="btn btn-primary">Download on iOS</a>
-      <a href="#for-pms" class="btn btn-outline-dark">Partner With Us</a>
+      <a href="mailto:apateu.app@gmail.com?subject=Apateu%20Design%20Partnership" class="btn btn-primary">Book a design partnership</a>
+      <a href="#housing" class="btn btn-outline-dark">See how it works</a>
+    </div>
+
+    <div class="hero-tertiary fade-in fade-in-delay-5">
+      <a href="https://apps.apple.com/app/id6745530032">Or download iOS →</a>
     </div>
 
     <div class="hero-stats fade-in fade-in-delay-5">
@@ -1593,12 +1702,12 @@ footer {
         <div class="hero-stat-lbl">Universities</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">300K+</div>
+        <div class="hero-stat-num">10K+</div>
         <div class="hero-stat-lbl">Students Reachable</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">MCP</div>
-        <div class="hero-stat-lbl">Agent Protocol</div>
+        <div class="hero-stat-num">2</div>
+        <div class="hero-stat-lbl">Agentic Systems Shipped</div>
       </div>
       <div class="hero-stat">
         <div class="hero-stat-num">iOS</div>
@@ -1609,18 +1718,31 @@ footer {
 </section>
 
 <!-- ─────────────────────────────
+     PILLAR I — HOUSING (divider)
+───────────────────────────── -->
+<section class="pillar-divider terra" id="housing">
+  <div class="pillar-rule fade-in">
+    <div class="pillar-numeral">I.</div>
+  </div>
+  <div class="pillar-kicker fade-in fade-in-delay-1">Housing</div>
+  <p class="pillar-lede fade-in fade-in-delay-2">
+    Apateu makes student housing queryable, bookable, and transactable by any AI agent — turning <em>natural language</em> into a signed lease.
+  </p>
+</section>
+
+<!-- ─────────────────────────────
      AGENT DEMO
 ───────────────────────────── -->
 <section class="agent-section" id="product">
   <div class="agent-inner">
     <div class="agent-header fade-in">
-      <div class="tag dark-terra">How It Works</div>
+      <div class="tag dark-terra">The Interface Is a Sentence</div>
       <h2 class="section-title light" style="margin-top:14px;">
-        Just ask your AI assistant.<br>
+        Just ask the Apateu agent.<br>
         <em class="light-em">We handle the rest.</em>
       </h2>
       <p>
-        Apateu runs an MCP server — the open protocol that lets AI agents like Claude and ChatGPT call external services. That means student housing is now <strong style="color:rgba(255,255,255,0.75)">natively searchable inside the AI tools students already use</strong>.
+        A student opens the Apateu agent and asks — in plain English — and Apateu returns verified listings, schedules viewings, drafts the lease, and handles handover. Built on our own agentic stack, with an API surface that lets us extend to external runtimes when we choose to. <strong style="color:rgba(255,255,255,0.75)">Natural language in. Signed lease out.</strong>
       </p>
     </div>
 
@@ -1634,7 +1756,7 @@ footer {
             <div class="chat-dot"></div>
             <div class="chat-dot"></div>
           </div>
-          <div class="chat-titlebar-label">Claude / ChatGPT</div>
+          <div class="chat-titlebar-label">Apateu Agent</div>
         </div>
         <div class="chat-body">
           <div class="chat-msg user">
@@ -1672,9 +1794,9 @@ footer {
       <!-- Middle: flow -->
       <div class="agent-flow-arrow">
         <div class="flow-line"></div>
-        <div class="flow-mcp-badge">
-          <div class="fmb-label">Apateu MCP</div>
-          <div class="fmb-sub">Agent-Callable API</div>
+        <div class="flow-tools-badge">
+          <div class="fmb-label">Apateu Tools</div>
+          <div class="fmb-sub">Agent-Callable</div>
         </div>
         <div class="flow-line"></div>
       </div>
@@ -1728,9 +1850,9 @@ footer {
       <strong>No portals. No phone calls. No PDFs.</strong> Apateu is the infrastructure layer that makes student housing a first-class data source for every AI agent — and turns a conversation into a closed transaction.
     </div>
     <div class="ai-logos fade-in fade-in-delay-3">
-      <div class="ai-logo-pill"><span>🤖</span> Claude</div>
-      <div class="ai-logo-pill"><span>💬</span> ChatGPT</div>
-      <div class="ai-logo-pill"><span>✦</span> Any MCP-compatible agent</div>
+      <div class="ai-logo-pill"><span>◇</span> Apateu iOS</div>
+      <div class="ai-logo-pill"><span>◈</span> Apateu Web</div>
+      <div class="ai-logo-pill"><span>✦</span> Tools API</div>
     </div>
   </div>
 </section>
@@ -1749,32 +1871,32 @@ footer {
     </div>
     <div class="features-grid">
       <div class="feat-card fade-in">
-        <div class="feat-icon">🔌</div>
-        <div class="feat-title">MCP Protocol — Agent-Callable API</div>
-        <div class="feat-body">Apateu exposes all listings through the Model Context Protocol. Any AI assistant can query, filter, and act on verified student housing data in real time.</div>
+        <div class="feat-icon">⚙︎</div>
+        <div class="feat-title">Agent-Callable Listings API</div>
+        <div class="feat-body">Listings are exposed as structured tools — search, filter, schedule, draft. Powering Apateu's own agent platform today, with an API surface ready to extend to external runtimes.</div>
       </div>
       <div class="feat-card fade-in fade-in-delay-1">
-        <div class="feat-icon sage-icon">✅</div>
+        <div class="feat-icon">◇</div>
+        <div class="feat-title">Anthropic Agent SDK</div>
+        <div class="feat-body">Our agents run on the Anthropic Agent SDK with explicit tool scopes, persistent memory, and observability. We orchestrate the loop ourselves — no opaque platforms.</div>
+      </div>
+      <div class="feat-card fade-in fade-in-delay-2">
+        <div class="feat-icon sage-icon">✓</div>
         <div class="feat-title">Verified Student Listings</div>
         <div class="feat-body">Every listing is tied to a verified student identity. No scams, no ghost listings. Safe for both sublessors and tenants — and trustworthy enough for AI agents to act on.</div>
       </div>
-      <div class="feat-card fade-in fade-in-delay-2">
-        <div class="feat-icon blue-icon">📄</div>
+      <div class="feat-card fade-in fade-in-delay-3">
+        <div class="feat-icon blue-icon">§</div>
         <div class="feat-title">AI-Generated Contracts</div>
         <div class="feat-body">Sublease agreements generated by AI in seconds, signed in-app with e-signature. No DocuSign, no lawyers, no PDF email chains.</div>
       </div>
-      <div class="feat-card fade-in fade-in-delay-3">
-        <div class="feat-icon">🏦</div>
-        <div class="feat-title">Escrow Payments</div>
-        <div class="feat-body">Rent and security deposits held in escrow. Money moves only when both parties confirm. Full protection for every transaction on the platform.</div>
-      </div>
       <div class="feat-card fade-in fade-in-delay-4">
-        <div class="feat-icon sage-icon">📅</div>
+        <div class="feat-icon sage-icon">▤</div>
         <div class="feat-title">Automated Showing Scheduling</div>
-        <div class="feat-body">AI agents can book property viewings directly through Apateu's API. Calendar coordination happens instantly — no back-and-forth.</div>
+        <div class="feat-body">Agents book property viewings directly. Calendar coordination happens instantly — no back-and-forth, no missed leads.</div>
       </div>
       <div class="feat-card fade-in fade-in-delay-5">
-        <div class="feat-icon blue-icon">🛋️</div>
+        <div class="feat-icon blue-icon">⌂</div>
         <div class="feat-title">Secondhand Marketplace</div>
         <div class="feat-body">Buy and sell furniture, electronics, and dorm essentials within your campus network. Year-round, peer-verified, hyper-local.</div>
       </div>
@@ -1795,7 +1917,7 @@ footer {
         <em>every AI agent.</em>
       </h2>
       <p>
-        Post your sublease on Apateu and it becomes instantly queryable by Claude, ChatGPT, and any other AI assistant. Your listing reaches renters who never even open a housing app.
+        Post your sublease on Apateu and it becomes instantly findable through the Apateu agent. Renters describe what they want in plain English — and your listing surfaces in the conversation.
       </p>
       <a href="https://apps.apple.com/app/id6745530032" class="btn btn-primary">Download on iOS</a>
     </div>
@@ -1810,8 +1932,8 @@ footer {
       <div class="sc-card">
         <div class="sc-num">02</div>
         <div>
-          <div class="sc-content-title">Sign contracts and collect payments in-app</div>
-          <div class="sc-content-body">AI generates the sublease agreement. Both parties sign digitally. Rent is collected through escrow — no Venmo, no risk.</div>
+          <div class="sc-content-title">Sign contracts in-app</div>
+          <div class="sc-content-body">AI generates the sublease agreement in seconds. Both parties sign digitally — no DocuSign, no PDF email chains.</div>
         </div>
       </div>
       <div class="sc-card">
@@ -1833,56 +1955,159 @@ footer {
 </section>
 
 <!-- ─────────────────────────────
-     FOR PROPERTY MANAGERS
+     PILLAR II — BRAND AGENTS (divider)
 ───────────────────────────── -->
-<section class="pm-section" id="for-pms">
-  <div class="pm-glow"></div>
-  <div class="pm-inner">
-    <div class="pm-header fade-in">
-      <div class="tag dark-terra">For Property Managers</div>
-      <h2 class="section-title light" style="margin-top:12px;">
-        Your autonomous<br>
-        <em class="light-em">AI leasing agent.</em>
-      </h2>
-      <p>
-        Stop paying for leads. Start running an autonomous tenant acquisition pipeline. Apateu's AI handles discovery, inquiry, scheduling, contracts, and payments — 24/7, fully white-labeled.
-      </p>
+<section class="pillar-divider violet" id="brand-agents">
+  <div class="pillar-rule fade-in">
+    <div class="pillar-numeral">II.</div>
+  </div>
+  <div class="pillar-kicker fade-in fade-in-delay-1">Brand Agents</div>
+  <p class="pillar-lede fade-in fade-in-delay-2">
+    <em>Digital employees</em> for property management. We design, build, and deploy the agentic workforce that runs your portfolio.
+  </p>
+</section>
+
+<!-- ─────────────────────────────
+     BRAND AGENTS — manifesto + roster + service
+───────────────────────────── -->
+<section class="brand-section">
+  <div class="brand-inner">
+
+    <!-- Manifesto -->
+    <div class="brand-manifesto">
+      <div class="fade-in">
+        <div class="brand-manifesto-eyebrow">The Offer</div>
+        <h2 class="brand-manifesto-title">
+          Hire a team<br>
+          that <em>doesn't sleep.</em>
+        </h2>
+      </div>
+      <div class="brand-manifesto-body fade-in fade-in-delay-1">
+        <p>
+          Property management runs on repetitive cognitive labor — answering inquiries, scheduling tours, screening applicants, drafting renewals, fielding maintenance triage. Most of it can be done by agents that are <strong>always on, always consistent, and answer in seconds.</strong>
+        </p>
+        <p>
+          Apateu builds these agents on top of your existing PMS. They speak to prospects, talk to residents, and write to your systems through tool calls. They aren't chatbots — they're <strong>scoped digital employees with memory, retrieval, and explicit permissions.</strong>
+        </p>
+        <p>
+          We work hands-on with a small number of design partners per quarter. You bring the portfolio and the pain. We bring the agents.
+        </p>
+      </div>
     </div>
 
-    <div class="pm-grid fade-in fade-in-delay-1">
-      <div class="pm-card">
-        <div class="pm-card-icon">🤖</div>
-        <div class="pm-card-title">Autonomous Tenant Acquisition</div>
-        <div class="pm-card-body">The AI agent handles the entire funnel from discovery to signed lease without human intervention. It responds to inquiries, schedules showings, and generates state-compliant contracts automatically.</div>
+    <!-- Roster -->
+    <div class="brand-roster">
+      <div class="brand-roster-head fade-in">
+        <div>
+          <div class="pillar-kicker">The Roster</div>
+          <h3>Five roles. <em>One workforce.</em></h3>
+        </div>
+        <div class="brand-roster-aside">
+          Each agent is scoped to a specific job, with its own tools, memory, and guardrails. We assemble them into a workforce custom to your portfolio.
+        </div>
       </div>
-      <div class="pm-card">
-        <div class="pm-card-icon">🔌</div>
-        <div class="pm-card-title">Inventory in Every AI Agent's Search</div>
-        <div class="pm-card-body">Your units appear in Apateu's MCP layer — meaning students using Claude, ChatGPT, or any AI assistant can find and book your properties directly from a conversation.</div>
-      </div>
-      <div class="pm-card">
-        <div class="pm-card-icon">🎨</div>
-        <div class="pm-card-title">White-Labeled Interface</div>
-        <div class="pm-card-body">Your brand, Apateu's rails. The tenant experience carries your company's identity. The infrastructure — contracts, payments, verification — runs entirely on Apateu.</div>
-      </div>
-      <div class="pm-card">
-        <div class="pm-card-icon">📊</div>
-        <div class="pm-card-title">Analytics & Lease Dashboard</div>
-        <div class="pm-card-body">Full visibility into occupancy, inquiry velocity, conversion rates, and payment status. One dashboard for your entire student housing portfolio.</div>
+
+      <div class="brand-roster-grid fade-in fade-in-delay-1">
+        <div class="brand-role">
+          <div class="brand-role-mark">L</div>
+          <div class="brand-role-name">Leasing Agent</div>
+          <div class="brand-role-tagline">Front-of-funnel agent that answers, qualifies, and routes prospects 24/7.</div>
+          <ul class="brand-role-caps">
+            <li>Inquiry triage</li>
+            <li>Tour scheduling</li>
+            <li>Application kickoff</li>
+          </ul>
+        </div>
+
+        <div class="brand-role">
+          <div class="brand-role-mark">R</div>
+          <div class="brand-role-name">Resident Comms</div>
+          <div class="brand-role-tagline">Conversational concierge for current residents — move-in to move-out.</div>
+          <ul class="brand-role-caps">
+            <li>Notices &amp; FAQs</li>
+            <li>Move-in / move-out</li>
+            <li>Escalation routing</li>
+          </ul>
+        </div>
+
+        <div class="brand-role">
+          <div class="brand-role-mark">M</div>
+          <div class="brand-role-name">Maintenance Triage</div>
+          <div class="brand-role-tagline">Symptom intake and severity scoring before a human work order is opened.</div>
+          <ul class="brand-role-caps">
+            <li>Symptom intake</li>
+            <li>Severity scoring</li>
+            <li>Vendor dispatch</li>
+          </ul>
+        </div>
+
+        <div class="brand-role">
+          <div class="brand-role-mark">N</div>
+          <div class="brand-role-name">Renewal Concierge</div>
+          <div class="brand-role-tagline">Outreach, term negotiation, and e-sign for resident renewals.</div>
+          <ul class="brand-role-caps">
+            <li>Renewal outreach</li>
+            <li>Term negotiation</li>
+            <li>E-signature</li>
+          </ul>
+        </div>
+
+        <div class="brand-role">
+          <div class="brand-role-mark">+</div>
+          <div class="brand-role-name">Custom</div>
+          <div class="brand-role-tagline">A new role designed for a workflow specific to your portfolio.</div>
+          <ul class="brand-role-caps">
+            <li>Discovery interview</li>
+            <li>Tool design</li>
+            <li>Eval &amp; rollout</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <div class="pm-pricing fade-in fade-in-delay-2">
-      <div class="pp-features">
-        <div class="pp-feat">Autonomous AI leasing agent included</div>
-        <div class="pp-feat">Unlimited listings and showing schedules</div>
-        <div class="pp-feat">AI contract generation + e-signature</div>
-        <div class="pp-feat">Escrow payment processing</div>
-        <div class="pp-feat">MCP API access — inventory in all AI agents</div>
-        <div class="pp-feat">White-labeled tenant experience</div>
+    <!-- Service -->
+    <div class="brand-service">
+      <div class="brand-service-head fade-in">
+        <div class="pillar-kicker">The Engagement</div>
+        <h3>Customize. <em>Build.</em> Deploy.</h3>
       </div>
-      <a href="mailto:apateu.app@gmail.com" class="btn btn-primary" style="flex-shrink:0; align-self:center;">Get in Touch</a>
+
+      <div class="brand-service-grid fade-in fade-in-delay-1">
+        <div class="brand-step">
+          <div class="brand-step-num">01 / Customize</div>
+          <div class="brand-step-title">Discovery</div>
+          <ul class="brand-step-list">
+            <li>Workflow audit</li>
+            <li>PMS &amp; data integration scope</li>
+            <li>Success metrics &amp; SLOs</li>
+          </ul>
+        </div>
+        <div class="brand-step">
+          <div class="brand-step-num">02 / Build</div>
+          <div class="brand-step-title">Engineering</div>
+          <ul class="brand-step-list">
+            <li>Agent design &amp; tool wiring</li>
+            <li>Memory, retrieval, permissions</li>
+            <li>Eval harness &amp; QA</li>
+          </ul>
+        </div>
+        <div class="brand-step">
+          <div class="brand-step-num">03 / Deploy</div>
+          <div class="brand-step-title">Production</div>
+          <ul class="brand-step-list">
+            <li>Phased rollout</li>
+            <li>Ops handoff &amp; training</li>
+            <li>Monitoring &amp; iteration</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="brand-cta fade-in fade-in-delay-2">
+        <a href="mailto:apateu.app@gmail.com?subject=Apateu%20Brand%20Agents%20-%20Design%20Partnership" class="btn btn-primary">Book a design partnership</a>
+        <div class="brand-cta-note">Limited to a small cohort per quarter</div>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -1903,7 +2128,7 @@ footer {
         <div class="how-step-num">1</div>
         <div class="how-step-title">Ask Any AI Agent</div>
         <div class="how-step-body">
-          A student asks Claude, ChatGPT, or any MCP-compatible assistant to find housing. The agent calls Apateu's API and gets back verified, structured results instantly.
+          A student asks the Apateu agent to find housing — in plain English. The agent calls Apateu's tools and returns verified, structured results instantly.
         </div>
       </div>
       <div class="how-step fade-in fade-in-delay-1">
@@ -1915,135 +2140,10 @@ footer {
       </div>
       <div class="how-step fade-in fade-in-delay-2">
         <div class="how-step-num">3</div>
-        <div class="how-step-title">Pay Safely</div>
+        <div class="how-step-title">Move In</div>
         <div class="how-step-body">
-          Rent and deposits are held in escrow. Funds release automatically on move-in. Both sides are protected from the first payment to the last.
+          The lease is active. The agent handles handover logistics, follow-up questions, and resident comms — start to finish, all in one conversation thread.
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─────────────────────────────
-     MCP CONNECT
-───────────────────────────── -->
-<section class="mcp-section" id="mcp">
-  <div class="mcp-inner">
-    <div class="mcp-header fade-in">
-      <div class="tag dark-terra">For Developers & AI Users</div>
-      <h2 class="section-title light" style="margin-top:14px;">
-        Query listings from<br><em class="light-em">Claude or ChatGPT.</em>
-      </h2>
-      <p>Connect Apateu to any MCP-compatible AI assistant. Ask in plain English — get live listings, photos, and a map. Read-only and free.</p>
-    </div>
-
-    <!-- Tab switcher -->
-    <div class="mcp-tabs fade-in" style="display:flex;gap:8px;margin-bottom:32px;">
-      <button class="mcp-tab mcp-tab-active" onclick="switchMcpTab('claude', this)">Claude Desktop</button>
-      <button class="mcp-tab" onclick="switchMcpTab('chatgpt', this)">ChatGPT</button>
-    </div>
-
-    <!-- Claude Desktop -->
-    <div class="mcp-body" id="mcp-tab-claude">
-      <div class="fade-in">
-        <div class="mcp-steps">
-          <div class="mcp-step">
-            <div class="mcp-step-num">1</div>
-            <div class="mcp-step-content">
-              <div class="mcp-step-title">Open Claude Desktop settings</div>
-              <div class="mcp-step-body">Go to <strong style="color:var(--dark-text)">Settings → Developer → Edit Config</strong> to open <code style="color:var(--terra-light);font-size:13px">claude_desktop_config.json</code>.</div>
-            </div>
-          </div>
-          <div class="mcp-step">
-            <div class="mcp-step-num">2</div>
-            <div class="mcp-step-content">
-              <div class="mcp-step-title">Add the Apateu server</div>
-              <div class="mcp-step-body">Paste the config on the right under <code style="color:var(--terra-light);font-size:13px">mcpServers</code>. No API key needed.</div>
-            </div>
-          </div>
-          <div class="mcp-step">
-            <div class="mcp-step-num">3</div>
-            <div class="mcp-step-content">
-              <div class="mcp-step-title">Restart Claude Desktop</div>
-              <div class="mcp-step-body">Apateu will appear as a connected tool. Start asking about listings.</div>
-            </div>
-          </div>
-        </div>
-        <div class="mcp-queries fade-in fade-in-delay-1">
-          <div class="mcp-queries-title">Example prompts</div>
-          <div class="mcp-query-list">
-            <div class="mcp-query">Find me studios in Los Angeles under $1,500/mo</div>
-            <div class="mcp-query">Show apartments near USC available in May</div>
-            <div class="mcp-query">What private rooms are listed in San Francisco right now?</div>
-          </div>
-        </div>
-      </div>
-      <div class="fade-in fade-in-delay-1">
-        <div class="mcp-code-block">
-          <div class="mcp-code-label">
-            <span>claude_desktop_config.json</span>
-            <div class="mcp-code-dot"></div>
-          </div>
-          <pre>{
-  <span class="key">"mcpServers"</span>: {
-    <span class="key">"apateu"</span>: {
-      <span class="key">"url"</span>: <span class="url">"https://westapt.com/mcp"</span>
-    }
-  }
-}</pre>
-        </div>
-        <p style="font-size:13px;color:var(--dark-sub);margin-top:16px;line-height:1.6;">
-          No API key needed. Listings are read-only — to contact a host, open the link in the Apateu app.
-        </p>
-      </div>
-    </div>
-
-    <!-- ChatGPT -->
-    <div class="mcp-body" id="mcp-tab-chatgpt" style="display:none;">
-      <div class="fade-in">
-        <div class="mcp-steps">
-          <div class="mcp-step">
-            <div class="mcp-step-num">1</div>
-            <div class="mcp-step-content">
-              <div class="mcp-step-title">Enable Developer Mode</div>
-              <div class="mcp-step-body">In ChatGPT, go to <strong style="color:var(--dark-text)">Settings → Developer Mode</strong> and enable it (currently in beta).</div>
-            </div>
-          </div>
-          <div class="mcp-step">
-            <div class="mcp-step-num">2</div>
-            <div class="mcp-step-content">
-              <div class="mcp-step-title">Add Apateu as a Connector</div>
-              <div class="mcp-step-body">Go to <strong style="color:var(--dark-text)">Connectors → Add</strong> and paste the URL on the right. ChatGPT handles auth automatically — no API key needed.</div>
-            </div>
-          </div>
-          <div class="mcp-step">
-            <div class="mcp-step-num">3</div>
-            <div class="mcp-step-content">
-              <div class="mcp-step-title">Start a conversation</div>
-              <div class="mcp-step-body">Apateu tools are now available in any ChatGPT chat. Ask about listings in plain English.</div>
-            </div>
-          </div>
-        </div>
-        <div class="mcp-queries fade-in fade-in-delay-1">
-          <div class="mcp-queries-title">Example prompts</div>
-          <div class="mcp-query-list">
-            <div class="mcp-query">Find me studios in Los Angeles under $1,500/mo</div>
-            <div class="mcp-query">Show apartments near USC available in May</div>
-            <div class="mcp-query">What private rooms are listed in San Francisco right now?</div>
-          </div>
-        </div>
-      </div>
-      <div class="fade-in fade-in-delay-1">
-        <div class="mcp-code-block">
-          <div class="mcp-code-label">
-            <span>ChatGPT → Settings → Developer Mode → Connectors</span>
-            <div class="mcp-code-dot"></div>
-          </div>
-          <pre><span class="url">https://westapt.com/mcp</span></pre>
-        </div>
-        <p style="font-size:13px;color:var(--dark-sub);margin-top:16px;line-height:1.6;">
-          Requires ChatGPT Developer Mode (currently in beta). ChatGPT will prompt you to authorize — just click Allow. No account or API key needed.
-        </p>
       </div>
     </div>
   </div>
@@ -2061,7 +2161,7 @@ footer {
           The network seed<br>is already live.
         </h2>
       </div>
-      <p>7 campuses active, reaching 300K+ students across LA, Bay Area, Seattle, and New York. iOS app in the App Store, and a signed partnership with MOVE × USC validating our campus playbook.</p>
+      <p>7 campuses active, reaching 10K+ students across LA, Bay Area, Seattle, and New York. iOS app in the App Store, and a signed partnership with MOVE × USC validating our campus playbook.</p>
     </div>
     <div class="traction-stats fade-in fade-in-delay-1">
       <div class="t-stat">
@@ -2069,7 +2169,7 @@ footer {
         <div class="t-stat-label">Universities<br>Active</div>
       </div>
       <div class="t-stat">
-        <div class="t-stat-num">300K+</div>
+        <div class="t-stat-num">10K+</div>
         <div class="t-stat-label">Students<br>Reachable</div>
       </div>
       <div class="t-stat">
@@ -2121,14 +2221,15 @@ footer {
   <div class="cta-inner">
     <div class="tag dark-terra fade-in">Get Started</div>
     <h2 class="section-title light fade-in fade-in-delay-1">
-      Ready to make<br>housing <em class="light-em">agent-native?</em>
+      Two pillars. One bet.<br>
+      <em class="light-em">Let's build the agent-native one.</em>
     </h2>
     <p class="fade-in fade-in-delay-2">
-      Whether you're a student looking for housing, a property manager ready to automate tenant acquisition, or an investor exploring the infrastructure layer of AI-native real estate — we'd love to talk.
+      If you operate a student-housing portfolio, run a campus partnership program, or are an investor in agent-native infrastructure — we'd like to talk.
     </p>
     <div class="cta-actions fade-in fade-in-delay-3">
-      <a href="https://apps.apple.com/app/id6745530032" class="btn btn-primary">Download on iOS</a>
-      <a href="mailto:apateu.app@gmail.com" class="btn btn-outline-dark">Contact Us</a>
+      <a href="mailto:apateu.app@gmail.com?subject=Apateu%20Design%20Partnership" class="btn btn-primary">Book a partnership call</a>
+      <a href="mailto:apateu.app@gmail.com" class="btn btn-outline-dark">Email us</a>
     </div>
   </div>
 </section>
@@ -2138,12 +2239,12 @@ footer {
 ───────────────────────────── -->
 <footer>
   <div class="footer-wordmark">Apateu</div>
-  <div class="footer-copy">© 2026 APATEU · AI INFRASTRUCTURE FOR STUDENT REAL ESTATE</div>
+  <div class="footer-copy">© 2026 APATEU · AGENTIC INFRASTRUCTURE FOR REAL ESTATE</div>
   <div class="footer-links">
-    <a href="https://www.app.westapt.com">App</a>
+    <a href="https://apps.apple.com/app/id6745530032">iOS App</a>
+    <a href="#housing">Housing</a>
+    <a href="#brand-agents">Brand Agents</a>
     <a href="mailto:apateu.app@gmail.com">Contact</a>
-    <a href="#for-pms">For PMs</a>
-    <a href="#mcp">MCP</a>
   </div>
 </footer>
 
@@ -2167,14 +2268,6 @@ footer {
   document.querySelectorAll('.hero .fade-in').forEach((el, i) => {
     setTimeout(() => el.classList.add('visible'), i * 120);
   });
-
-  // MCP tab switcher
-  function switchMcpTab(tab, btn) {
-    document.getElementById('mcp-tab-claude').style.display  = tab === 'claude'  ? '' : 'none';
-    document.getElementById('mcp-tab-chatgpt').style.display = tab === 'chatgpt' ? '' : 'none';
-    document.querySelectorAll('.mcp-tab').forEach(b => b.classList.remove('mcp-tab-active'));
-    btn.classList.add('mcp-tab-active');
-  }
 </script>
 
 </body>
